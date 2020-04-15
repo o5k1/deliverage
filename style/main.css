@@ -1,0 +1,38 @@
+.deliverage-page__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0;
+}
+
+#myMap {
+    height: calc(100vh - 160px) !important;
+}
+
+.deliverage-select__suggestions {
+    position: absolute;
+    width: 100%;
+    top: 75px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group__address {
+    width: calc(100% - 26px);
+}
+
+.MicrosoftMap .as_container_search {
+    width: 100%;
+}
+
+.deliverage-menu {
+    padding-left: 8px;
+}
+
+.deliverage-menu__item {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+}

@@ -11,6 +11,9 @@
 
     <link rel="stylesheet" href="../style/main.css">
 
+    <script type='text/javascript'
+            src='http://www.bing.com/api/maps/mapcontrol?callback=getMap'></script>
+
     <title>Orders | Deliverage</title>
 </head>
 <body>
@@ -40,37 +43,10 @@
             <div class="deliverage-page__header">
                 <h1 class="deliverage-page__title">Orders</h1>
                 <div class="deliverage-page__header-actions">
-                    <a href="./orders-map.html">Show on map</a>
+                    <a href="./orders.html">Show as table</a>
                 </div>
             </div>
-            <table class="table table-hover">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Hour</th>
-                    <th scope="col">Address</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">
-                        <a href="../pages/order-detail.html?id=1">1</a>
-                    </th>
-                    <td>Mark</td>
-                    <td>18.30</td>
-                    <td>Via culo</td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <a href="../pages/order-detail.html?id=2">2</a>
-                    </th>
-                    <td>Jacob</td>
-                    <td>20.00</td>
-                    <td>Via ciao</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="deliverage-orders__map" id="myMap"></div>
         </div>
     </div>
 </div>
@@ -86,5 +62,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+<script src="../js/orders-map.js"></script>
 </body>
 </html>
