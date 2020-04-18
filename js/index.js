@@ -5,9 +5,31 @@ var state = {
   items: []
 };
 
+var orders = [];
+
+var renderCloser = function (closer) {
+  var closerEl = $('[data-region="closer"]');
+  var compiled = _.template($('#closerTemplate').html())(closer);
+
+  closerEl.html(compiled);
+};
+
 onMapLoaded = function () {
   var selectedSuggestion = function (result) {
     state.address = result;
+    Microsoft.Maps.loadModule("Microsoft.Maps.SpatialMath", function () {
+      var closer = null;
+      orders.forEach(function (order) {
+        var address = order.address;
+        var distance = Microsoft.Maps.SpatialMath.getDistanceTo(address.location, result.location, Microsoft.Maps.SpatialMath.DistanceUnits.Kilometers);
+        if (closer === null || distance < closer.distance) {
+          closer = {order: order, distance: Math.round(distance)};
+        }
+      });
+      if (closer) {
+        renderCloser(closer);
+      }
+    });
   };
 
   Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', {
@@ -31,6 +53,26 @@ request.onsuccess = function (e) {
   console.log("db opened:", e);
   db = e.target.result;
   console.log("db:", db);
+
+  var getOrders = function (onsuccess) {
+    var orders = [];
+
+    db.transaction("orders").objectStore("orders").openCursor().onsuccess = function (event) {
+      var cursor = event.target.result;
+      if (cursor) {
+        var order = cursor.value;
+        order.key = cursor.primaryKey;
+        orders.push(order);
+        cursor.continue();
+      } else {
+        onsuccess(orders);
+      }
+    };
+  };
+
+  getOrders(function (o) {
+    orders = o;
+  });
 
   var getItems = function (onsuccess) {
     db.transaction("menu-items").objectStore("menu-items").getAll().onsuccess = function (event) {
@@ -83,7 +125,7 @@ request.onsuccess = function (e) {
       var orderId = e.target.result;
       window.location.href = '/deliverage/pages/order-detail.html?id=' + orderId;
     };
-    req.onerror= function (e) {
+    req.onerror = function (e) {
       console.log('error', e);
     };
   };
@@ -122,5 +164,4 @@ request.onsuccess = function (e) {
 
 
 //TODO calcola distanza tra address e posizione corrente
-//TODO salva ordine
 //TODO mostra avviso se due ordini pending hanno address con distanza < che tornare ad home @https://docs.microsoft.com/en-us/bingmaps/v8-web-control/map-control-concepts/spatial-math-module-examples/basic-core-spatial-math-example

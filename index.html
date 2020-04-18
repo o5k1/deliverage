@@ -51,9 +51,7 @@
                     <input type="text" class="form-control" id="address" aria-describedby="emailHelp" required>
                     <div id="searchBoxContainer" class="deliverage-select__suggestions"></div>
                     <small class="form-text text-muted">Start writing and choose from the dropdown list.</small>
-                    <small class="form-text text-warning">There's an order near <span class="font-weight-bold">Via culo 18</span>
-                        at <span
-                                class="font-weight-bold">19.30</span></small>
+                    <small class="form-text text-success" data-region="closer"></small>
                 </div>
                 <div class="form-group">
                     <label for="time">Time</label>
@@ -85,6 +83,12 @@
             <%= name %>
         </label>
     </li>
+</script>
+
+<script id="closerTemplate" type="text/template">
+    <span><a href="pages/order-detail.html?id=<%=order.key%>">The closest order</a> (<%= distance %> Km) is in <span
+            class="font-weight-bold"><%= order.address.formattedSuggestion %></span>
+    at <span class="font-weight-bold"><%= order.time %></span></span>
 </script>
 
 <!-- Optional JavaScript -->
