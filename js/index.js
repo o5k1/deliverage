@@ -24,21 +24,94 @@ onMapLoaded = function () {
   });
 };
 
-$(document).ready(function () {
-  var clientInputEl = $('input#client');
-  var timeInputEl = $('input#time');
+var db = null;
+var request = window.indexedDB.open("deliverage", 1);
+request.onsuccess = function (e) {
+  console.log("onsuccess");
+  console.log("db opened:", e);
+  db = e.target.result;
+  console.log("db:", db);
 
-  var onClientFocusOut = function (e) {
-    state.client = e.target.value;
+  var getItems = function (onsuccess) {
+    db.transaction("menu-items").objectStore("menu-items").getAll().onsuccess = function (event) {
+      onsuccess(event.target.result);
+    };
   };
 
-  var onTimeFocusOut = function (e) {
-    state.time = e.target.value;
+  var renderItems = function (items) {
+    console.log(items);
+    var listEl = $('[data-region="menu"]');
+    var compiled = _.template($('#itemTemplate').html());
+    var itemsHtml = "";
+
+    items.forEach(function (item) {
+      itemsHtml += compiled(item);
+    });
+
+    listEl.html(itemsHtml);
+
+    var listItemEl = $('input[type="checkbox"]');
+
+    var onItemToggle = function (e) {
+      var inputEl = $(this);
+      if (inputEl.is(":checked")) {
+        state.items.push({name: inputEl.attr('id')});
+      } else {
+        state.items = state.items.filter(item => item.name !== inputEl.attr('id'));
+      }
+    };
+
+    listItemEl.change(onItemToggle)
   };
 
-  clientInputEl.blur(onClientFocusOut);
-  timeInputEl.blur(onTimeFocusOut);
-});
+  var storeOrder = function (order, oncomplete) {
+    var transaction = db.transaction(["orders"], "readwrite");
+
+    // Do something when all the data is added to the database.
+    transaction.oncomplete = function (event) {
+      oncomplete();
+    };
+
+    transaction.onerror = function (event) {
+      // Don't forget to handle errors!
+    };
+
+    var objectStore = transaction.objectStore("orders");
+    objectStore.add(order);
+  };
+
+  $(document).ready(function () {
+    getItems(renderItems);
+
+    var clientInputEl = $('input#client');
+    var timeInputEl = $('input#time');
+    var formEl = $('[data-action="addOrder"]');
+
+    var onClientFocusOut = function (e) {
+      state.client = e.target.value;
+    };
+
+    var onTimeFocusOut = function (e) {
+      state.time = e.target.value;
+    };
+
+    clientInputEl.blur(onClientFocusOut);
+    timeInputEl.blur(onTimeFocusOut);
+
+    formEl.submit(function (e) {
+      e.preventDefault();
+      storeOrder(state, function () {
+        state = {
+          client: '',
+          address: null,
+          time: null,
+          items: []
+        }
+      });
+    });
+  });
+};
+
 
 //TODO calcola distanza tra address e posizione corrente
 //TODO salva ordine

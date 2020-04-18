@@ -1,3 +1,7 @@
+body {
+    margin-bottom: 100px;
+}
+
 .deliverage-page__header {
     display: flex;
     justify-content: space-between;
@@ -31,8 +35,18 @@
     padding-left: 8px;
 }
 
+.deliverage-menu--order {
+    padding-left: 24px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
 .deliverage-menu__item {
     display: flex;
     justify-content: space-between;
     margin: 16px 0;
+}
+
+.deliverage__add-order-actions {
+    text-align: right;
 }
