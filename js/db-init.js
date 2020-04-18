@@ -35,12 +35,6 @@ request.onupgradeneeded = function (e) {
 
   // Create an objectStore for this database
   var orderStore = db.createObjectStore("orders", {autoIncrement: true});
-
-  // Create an index to search menu items by name. We want to ensure that
-  // no two items have the same name, so use a unique index.
-  orderStore.createIndex("client", "client", {unique: true});
-  orderStore.createIndex("time", "time", {unique: true});
-
 };
 request.onsuccess = function (e) {
   console.log("onsuccess");

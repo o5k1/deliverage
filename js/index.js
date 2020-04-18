@@ -77,7 +77,15 @@ request.onsuccess = function (e) {
     };
 
     var objectStore = transaction.objectStore("orders");
-    objectStore.add(order);
+    var req = objectStore.add(order);
+    console.log('req', req);
+    req.onsuccess = function (e) {
+      var orderId = e.target.result;
+      window.location.href = '/deliverage/pages/order-detail.html?id=' + orderId;
+    };
+    req.onerror= function (e) {
+      console.log('error', e);
+    };
   };
 
   $(document).ready(function () {

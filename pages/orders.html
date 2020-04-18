@@ -48,32 +48,32 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Hour</th>
+                    <th scope="col">Time</th>
                     <th scope="col">Address</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">
-                        <a href="../pages/order-detail.html?id=1">1</a>
-                    </th>
-                    <td>Mark</td>
-                    <td>18.30</td>
-                    <td>Via culo</td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <a href="../pages/order-detail.html?id=2">2</a>
-                    </th>
-                    <td>Jacob</td>
-                    <td>20.00</td>
-                    <td>Via ciao</td>
+                <tbody data-region="body">
+                <tr class="d-flex justify-content-center">
+                    <td class="spinner-grow" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script id="orderTemplate" type="text/template">
+    <tr>
+        <th scope="row">
+            <a href="../pages/order-detail.html?id=<%=key%>"><%=key%></a>
+        </th>
+        <td><%= client %></td>
+        <td><%= time %></td>
+        <td><%= address.formattedSuggestion %></td>
+    </tr>
+</script>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -86,5 +86,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"
+        integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
+<script src="../js/db-init.js"></script>
+<script src="../js/orders.js"></script>
 </body>
 </html>

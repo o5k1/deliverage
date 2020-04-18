@@ -37,27 +37,28 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1 class="deliverage-page__title"></h1>
-            <p class="text-muted">Deliver in <span class="font-weight-bold">Via culo 18</span> at <span
-                    class="font-weight-bold">19.30</span></p>
+            <div>
+                <div data-region="title"></div>
+                <div data-region="subtitle"></div>
+            </div>
             <h5>Resume</h5>
-            <ul class="deliverage-menu">
-                <li class="deliverage-menu__item">
-                    Club Sandwich
-                </li>
-                <li class="deliverage-menu__item">
-                    Hamburger
-                </li>
-                <li class="deliverage-menu__item">
-                    Cheeseburger
-                </li>
-                <li class="deliverage-menu__item">
-                    Poke
-                </li>
-            </ul>
+            <ul class="deliverage-menu" data-region="items"></ul>
         </div>
     </div>
 </div>
+
+<script id="titleTemplate" type="text/template">
+    <h1><%= client %></h1>
+</script>
+
+<script id="subtitleTemplate" type="text/template">
+    <p class="text-muted">Deliver in <span class="font-weight-bold"><%= address.formattedSuggestion %></span> at <span
+            class="font-weight-bold"><%= time %></span></p>
+</script>
+
+<script id="itemTemplate" type="text/template">
+    <li class="deliverage-menu__item"><%= name %></li>
+</script>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -70,6 +71,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"
+        integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
+<script src="../js/db-init.js"></script>
 <script src="../js/order-detail.js"></script>
 </body>
 </html>
